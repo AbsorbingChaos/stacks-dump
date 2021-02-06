@@ -59,7 +59,7 @@ function publish() {
 
 # Run stacks-dump and save output to file
 cd "$__stacksdump" || exit
-git pull
+# git pull
 node report -b -g -l -z "$__stacksnode"
 # node report "$__stacksnode" -j -l > "$__publishdir"/"$__outputjsonfile"
 # node report "$__stacksnode" -c > "$__publishdir"/"$__outputcsvfile"
