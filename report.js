@@ -848,13 +848,15 @@ function process_burnchain_ops() {
     } else if (use_discord) {
 
       let miner_list = 'STX Address + Actual Wins / Total Wins / Total Mined\n'
+      let miner_count = 0
       for (let miner_key of Object.keys(miners).filter(miner => miners[miner].mined > 0).sort()) {
         const miner = miners[miner_key]
         if (miner.mined > 0) {
           if (last_block - miner.last_block < 4) {
             // list active miners
             miner_list = miner_list + miner_key + '\n'
-            miner_list = miner_list + miner.actual_win + '/' + miner.won + '/' + miner.mined
+            miner_list = miner_list + miner.actual_win + '/' + miner.won + '/' + miner.mined + '\n'
+            miner_count++
           }
         }
       }
@@ -867,7 +869,7 @@ function process_burnchain_ops() {
       .addField('Total Miners (overall)', Object.keys(miners).length)
       .addField('Total Commit (last block)', numberWithCommas(burn_last_block, 0))
       .addField('Block Reward (last block)', numberWithCommas(reward_last_block, 2))
-      .addField('Active Miners', miner_list)
+      .addField('Active Miners (${miner_count})', miner_list)
       .setColor('#5546FF')
       .setThumbnail('https://stacks101-com.chaos.workers.dev/img/stacks-mine.png')
       .setDescription('Updates from the Freehold follower node.')
