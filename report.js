@@ -838,7 +838,8 @@ function process_burnchain_ops() {
             `${(miner.burned / miner.total_burn * 100).toFixed(2)}%`,
             `${numberWithCommas(miner.burned, 0)}`,
             `${(miner.burned / miner.mined).toFixed(0)}`,
-            `${miner.last_commit}`, `${numberWithCommas(miner.rewards / 1000000, 2)}`,
+            `${miner.last_commit}`,
+            `${numberWithCommas(miner.rewards / 1000000, 2)}`,
             `${numberWithCommas(miner.matured_rewards / 1000000, 2)}`,
             `${numberWithCommas((miner.rewards - miner.matured_rewards) / 1000000, 2)}`,
           ])          
@@ -859,7 +860,7 @@ function process_burnchain_ops() {
             // list active miners
             miner_btc = c32.c32ToB58(miner_key)
             miner_mined = `${numberWithCommas(miner.mined, 0)}`
-            miner_last_commit = `${numberWithCommas(miner.rewards / 1000000, 0)}`
+            miner_last_commit = miner.last_commit
             miner_list = miner_list + miner_key + '\n'
             miner_list = miner_list + miner_btc + '\n'
             miner_list = miner_list + miner.actual_win + ' / ' + miner.won + ' / ' + miner_mined + ' / ' + miner_last_commit + ' sats\n\n'
