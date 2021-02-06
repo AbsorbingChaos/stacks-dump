@@ -852,7 +852,7 @@ function process_burnchain_ops() {
       for (let miner_key of Object.keys(miners).filter(miner => miners[miner].mined > 0).sort()) {
         const miner = miners[miner_key]
         if (miner.mined > 0) {
-          if (last_block - miner.last_block < 4) {
+          if (last_block - miner.last_block < 1) {
             // list active miners
             miner_list = miner_list + miner_key + '\n'
             miner_list = miner_list + miner.actual_win + '/' + miner.won + '/' + miner.mined + '\n'
