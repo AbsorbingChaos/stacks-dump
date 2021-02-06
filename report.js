@@ -52,7 +52,7 @@ import { Table } from './src/cli-tableau.js'
 import chalk from 'chalk'
 
 import { Webhook, MessageBuilder } from 'discord-webhook-node'
-const hook = new Webhook('https://discord.com/api/webhooks/807621348385488927/ME04cjN4yqz1v_RUPPqZ32c855I-phzRcy4Ygm8SGBQNVlQrcQeksGcY2fmEvc4NSCr7')
+const hook = new Webhook('https://discord.com/api/webhooks/807652894090330142/odIeg2a__n1FTMTknjxa5q9fsv4UY7OknDk1JOV41uikJD8-9HV6Nlk5rlGvn8WdtDLS')
 
 function numberWithCommas(x, decimals) {
   return x.toFixed(decimals).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
