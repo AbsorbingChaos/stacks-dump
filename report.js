@@ -850,15 +850,19 @@ function process_burnchain_ops() {
       let miner_list = 'STX Address\nBTC Address\nActual Wins / Total Wins / Total Mined / Last Paid\n\n'
       let miner_count = 0
       let miner_btc = ''
+      let miner_mined = ''
+      let miner_last_commit = ''
       for (let miner_key of Object.keys(miners).filter(miner => miners[miner].mined > 0).sort()) {
         const miner = miners[miner_key]
         if (miner.mined > 0) {
           if (last_block - miner.last_block < 1) {
             // list active miners
             miner_btc = c32.c32ToB58(miner_key)
+            miner_mined = numberWithCommas(miner.mined, 0)
+            miner_last_commit = numberWithCommas(miner.last_commit, 0)
             miner_list = miner_list + miner_key + '\n'
             miner_list = miner_list + miner_btc + '\n'
-            miner_list = miner_list + miner.actual_win + ' / ' + miner.won + ' / ' + numberWithCommas(miner.mined, 0) + ' / ' + numberWithCommas(miner.last_commit, 0) + ' sats\n\n'
+            miner_list = miner_list + miner.actual_win + ' / ' + miner.won + ' / ' + miner_mined + ' / ' + miner_last_commit + ' sats\n\n'
             // miner_list = miner_list + (miner.burned / miner.mined).toFixed(0) + miner.last_commit + numberWithCommas(miner.rewards / 1000000, 2)
             miner_count++
           }
