@@ -847,7 +847,7 @@ function process_burnchain_ops() {
       console.log(table.toString())
     } else if (use_discord) {
 
-      let miner_list = 'STX Address\nBTC Address\nActual Wins / Total Wins / Total Mined / Avg Paid / Last Paid / Rewards\n\n'
+      let miner_list = 'STX Address\nBTC Address\nActual Wins / Total Wins / Total Mined / Last Paid\n\n'
       let miner_count = 0
       let miner_btc = ''
       for (let miner_key of Object.keys(miners).filter(miner => miners[miner].mined > 0).sort()) {
@@ -858,8 +858,8 @@ function process_burnchain_ops() {
             miner_btc = c32.c32ToB58(miner_key)
             miner_list = miner_list + miner_key + '\n'
             miner_list = miner_list + miner_btc + '\n'
-            miner_list = miner_list + miner.actual_win + '/' + miner.won + '/' + miner.mined
-            miner_list = miner_list + (miner.burned / miner.mined).toFixed(0) + miner.last_commit + numberWithCommas(miner.rewards / 1000000, 2)
+            miner_list = miner_list + miner.actual_win + '/' + miner.won + '/' + miner.mined + '/' + miner.last_commit
+            // miner_list = miner_list + (miner.burned / miner.mined).toFixed(0) + miner.last_commit + numberWithCommas(miner.rewards / 1000000, 2)
             miner_count++
           }
         }
