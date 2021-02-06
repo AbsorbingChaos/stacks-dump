@@ -426,7 +426,7 @@ function process_snapshots() {
 
   for (let row of result) {
     if (row.pox_valid === 0) {
-      if (!use_csv || !use_discord) {
+      if (!use_csv && !use_discord) {
         console.log("pox invalid", row.block_height, row.burn_header_hash, parent && parent.parent_burn_header_hash)
       }
     } else if (!parent || row.burn_header_hash === parent.parent_burn_header_hash) {
