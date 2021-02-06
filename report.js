@@ -51,6 +51,8 @@ import bitcoin from 'bitcoinjs-lib'
 import { Table } from './src/cli-tableau.js'
 import chalk from 'chalk'
 
+import { Webhook, MessageBuilder } from 'discord-webhook-node'
+const hook = new Webhook('https://discord.com/api/webhooks/807621348385488927/ME04cjN4yqz1v_RUPPqZ32c855I-phzRcy4Ygm8SGBQNVlQrcQeksGcY2fmEvc4NSCr7')
 
 function numberWithCommas(x, decimals) {
   return x.toFixed(decimals).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
@@ -95,6 +97,7 @@ const root = ''
 let target = 'mainnet'
 let use_alpha = false
 let use_csv = false
+let use_discord = false
 let use_txs = false
 let show_blocks = true
 let show_distances = false
@@ -181,7 +184,6 @@ for (let j = 0; j < my_args.length; j++) {
     case '-z':
     case '--discord':
       use_discord = true
-      discord_webhook_url = 'https://discord.com/api/webhooks/807621348385488927/ME04cjN4yqz1v_RUPPqZ32c855I-phzRcy4Ygm8SGBQNVlQrcQeksGcY2fmEvc4NSCr7'
       break
     default:
       // assuming last argument is root path
@@ -631,26 +633,6 @@ function process_burnchain_ops() {
   }
 }
 
-function postMessageToDiscord(message) {
-
-  message = message || "Hello World!"
-
-  let payload = JSON.stringify({content: message})
-
-  let params = {
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    method: "POST",
-    payload: payload,
-    muteHttpExceptions: true
-  }
-
-  var response = UrlFetchApp.fetch(discord_webhook_url, params)
-  console.log(response.getContentText())
-
-}
-
 (async () => {
   process_burnchain_blocks()
   process_burnchain_ops()
@@ -864,7 +846,37 @@ function postMessageToDiscord(message) {
       }      
       console.log(table.toString())
     } else if (use_discord) {
-      let miner_stats = "Miner Statistics\nThis is a test.\nMiners Last Block: ${miner_count_last_block}"
+
+      let miner_list = ''
+      for (let miner_key of Object.keys(miners).filter(miner => miners[miner].mined > 0).sort()) {
+        const miner = miners[miner_key]
+        if (miner.mined > 0) {
+          if (last_block - miner.last_block < 4) {
+            // list active miners
+            miner_list = 'STX Address + Actual Wins / Total Wins / Total Mined\n'
+            miner_list = miner_list + miner_key + '\n'
+            miner_list = miner_list + miner.actual_win + '/' + miner.won + '/' + miner.mined
+          }
+        }
+      }
+
+      const embed = new MessageBuilder()
+      .setTitle('STX Mining Stats')
+      .setAuthor('Stacks-Dump')
+      .setURL('https://github.com/AbsorbingChaos/stacks-dump/tree/feat/monitoring')
+      .addField('Total Miners (last block)', miner_count_last_block, true)
+      .addField('Total Miners (overall)', Object.keys(miners).length)
+      .addField('Total Commit (last block)', numberWithCommas(burn_last_block, 0))
+      .addField('Block Reward (last block)', numberWithCommas(reward_last_block, 2))
+      .addField('Top Miners', miner_list)
+      .setColor('#5546FF')
+      .setThumbnail('https://stacks101-com.chaos.workers.dev/img/stacks-mine.png')
+      .setDescription('A regular update from the Freehold follower node.')
+      // .setImage('https://stacks101-com.chaos.workers.dev/img/stacks-mine.png')
+      .setFooter('Developed by Absorbing Chaos', 'https://stacks101-com.chaos.workers.dev/img/stacks-mine.png')
+      .setTimestamp();
+      hook.send(embed)
+
       // console.log("Statistics ========================================================================================================================")
       // console.log("miners (last block):", miner_count_last_block)
       // console.log("miners (overall):", Object.keys(miners).length)
@@ -875,7 +887,6 @@ function postMessageToDiscord(message) {
       // console.log("actual_win_total:", actual_win_total)
       // console.log("orphaned blocks:", blocks - empty_blocks - actual_win_total - incorrect_blocks)
       // console.log("incorrect blocks:", incorrect_blocks)
-      postMessageToDiscord(miner_stats)
     } else {
       for (let miner_key of Object.keys(miners).filter(miner => miners[miner].mined > 0).sort((a, b) => (miners[b].last_commit - miners[a].last_commit))) {
         const miner = miners[miner_key]
