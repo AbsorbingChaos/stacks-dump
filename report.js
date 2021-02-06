@@ -178,6 +178,11 @@ for (let j = 0; j < my_args.length; j++) {
     case '--xenon':
       target = 'xenon'
       break
+    case '-z':
+    case '--discord':
+      use_discord = true
+      discord_webhook_url = 'https://discord.com/api/webhooks/807621348385488927/ME04cjN4yqz1v_RUPPqZ32c855I-phzRcy4Ygm8SGBQNVlQrcQeksGcY2fmEvc4NSCr7'
+      break
     default:
       // assuming last argument is root path
       data_root_path = `${root}${my_args[j]}`
@@ -626,6 +631,26 @@ function process_burnchain_ops() {
   }
 }
 
+function postMessageToDiscord(message) {
+
+  message = message || "Hello World!"
+
+  let payload = JSON.stringify({content: message})
+
+  let params = {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    method: "POST",
+    payload: payload,
+    muteHttpExceptions: true
+  }
+
+  var response = UrlFetchApp.fetch(discord_webhook_url, params)
+  console.log(response.getContentText())
+
+}
+
 (async () => {
   process_burnchain_blocks()
   process_burnchain_ops()
@@ -838,6 +863,19 @@ function process_burnchain_ops() {
         }
       }      
       console.log(table.toString())
+    } else if (use_discord) {
+      let miner_stats = "Miner Statistics\nThis is a test.\nMiners Last Block: ${miner_count_last_block}"
+      // console.log("Statistics ========================================================================================================================")
+      // console.log("miners (last block):", miner_count_last_block)
+      // console.log("miners (overall):", Object.keys(miners).length)
+      // console.log("total commit (last block):", numberWithCommas(burn_last_block, 0), "sats")
+      // console.log("block reward (last block):", numberWithCommas(reward_last_block, 2), "STX")
+      // console.log("btc blocks:", blocks)
+      // console.log("empty btc blocks:", empty_blocks)
+      // console.log("actual_win_total:", actual_win_total)
+      // console.log("orphaned blocks:", blocks - empty_blocks - actual_win_total - incorrect_blocks)
+      // console.log("incorrect blocks:", incorrect_blocks)
+      postMessageToDiscord(miner_stats)
     } else {
       for (let miner_key of Object.keys(miners).filter(miner => miners[miner].mined > 0).sort((a, b) => (miners[b].last_commit - miners[a].last_commit))) {
         const miner = miners[miner_key]
