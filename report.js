@@ -869,7 +869,7 @@ function process_burnchain_ops() {
       .addField('Total Miners (overall)', Object.keys(miners).length)
       .addField('Total Commit (last block)', numberWithCommas(burn_last_block, 0))
       .addField('Block Reward (last block)', numberWithCommas(reward_last_block, 2))
-      .addField('Active Miners (${miner_count})', miner_list)
+      .addField('Active Miners ( ' + miner_count + ')', miner_list)
       .setColor('#5546FF')
       .setThumbnail('https://stacks101-com.chaos.workers.dev/img/stacks-mine.png')
       .setDescription('Updates from the Freehold follower node.')
