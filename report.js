@@ -858,7 +858,7 @@ function process_burnchain_ops() {
             miner_btc = c32.c32ToB58(miner_key)
             miner_list = miner_list + miner_key + '\n'
             miner_list = miner_list + miner_btc + '\n'
-            miner_list = miner_list + miner.actual_win + ' / ' + miner.won + ' / ' + miner.mined + ' / ' + miner.last_commit + ' sats\n\n'
+            miner_list = miner_list + miner.actual_win + ' / ' + miner.won + ' / ' + numberWithCommas(miner.mined, 0) + ' / ' + numberWithCommas(miner.last_commit, 0) + ' sats\n\n'
             // miner_list = miner_list + (miner.burned / miner.mined).toFixed(0) + miner.last_commit + numberWithCommas(miner.rewards / 1000000, 2)
             miner_count++
           }
