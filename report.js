@@ -864,39 +864,42 @@ function process_burnchain_ops() {
             miner_list = miner_list + miner_key + '\n'
             miner_list = miner_list + miner_btc + '\n'
             miner_list = miner_list + miner.actual_win + ' / ' + miner.won + ' / ' + miner_mined + ' / ' + miner_last_commit + ' sats\n\n'
-            // miner_list = miner_list + (miner.burned / miner.mined).toFixed(0) + miner.last_commit + numberWithCommas(miner.rewards / 1000000, 2)
             miner_count++
           }
         }
       }
 
-      const embed = new MessageBuilder()
-      .setTitle('STX Mining Stats')
-      .setAuthor('Stacks-Dump')
-      .setURL('https://github.com/AbsorbingChaos/stacks-dump/tree/feat/monitoring')
-      .addField('Total Miners (last block ' + last_block + ')', miner_count_last_block, true)
-      .addField('Total Miners (overall)', Object.keys(miners).length)
-      .addField('Total Commit (last block ' + last_block + ')', numberWithCommas(burn_last_block, 0))
-      // .addField('Block Reward (last block)', numberWithCommas(reward_last_block, 0))
-      .addField('Active Miners (' + miner_count + ')', miner_list)
-      .setColor('#5546FF')
-      .setThumbnail('https://stacks101-com.chaos.workers.dev/img/stacks-mine.png')
-      .setDescription('Updates from the Freehold follower node.')
-      // .setImage('https://stacks101-com.chaos.workers.dev/img/stacks-mine.png')
-      .setFooter('Developed by Absorbing Chaos', 'https://stacks101-com.chaos.workers.dev/img/stacks-mine.png')
-      .setTimestamp();
-      hook.send(embed)
-
-      // console.log("Statistics ========================================================================================================================")
-      // console.log("miners (last block):", miner_count_last_block)
-      // console.log("miners (overall):", Object.keys(miners).length)
-      // console.log("total commit (last block):", numberWithCommas(burn_last_block, 0), "sats")
-      // console.log("block reward (last block):", numberWithCommas(reward_last_block, 2), "STX")
-      // console.log("btc blocks:", blocks)
-      // console.log("empty btc blocks:", empty_blocks)
-      // console.log("actual_win_total:", actual_win_total)
-      // console.log("orphaned blocks:", blocks - empty_blocks - actual_win_total - incorrect_blocks)
-      // console.log("incorrect blocks:", incorrect_blocks)
+      if (miner_count > 0) {
+        const embed = new MessageBuilder()
+        .setTitle('STX Mining Stats')
+        .setAuthor('Stacks-Dump')
+        .setURL('https://github.com/AbsorbingChaos/stacks-dump/tree/feat/monitoring')
+        .addField('Total Miners (last block ' + last_block + ')', miner_count_last_block)
+        .addField('Total Miners (overall)', Object.keys(miners).length)
+        .addField('Total Commit (last block ' + last_block + ')', numberWithCommas(burn_last_block, 0))
+        // .addField('Block Reward (last block)', numberWithCommas(reward_last_block, 0))
+        .addField('Active Miners (' + miner_count + ')', miner_list)
+        .setColor('#5546FF')
+        .setThumbnail('https://stacks101-com.chaos.workers.dev/img/stacks-mine.png')
+        .setDescription('Updates from the Freehold follower node.')
+        // .setImage('https://stacks101-com.chaos.workers.dev/img/stacks-mine.png')
+        .setFooter('Developed by Absorbing Chaos', 'https://stacks101-com.chaos.workers.dev/img/stacks-mine.png')
+        .setTimestamp();
+        hook.send(embed)
+      } else {
+        const embed = new MessageBuilder()
+        .setTitle('STX Mining Stats')
+        .setAuthor('Stacks-Dump')
+        .setURL('https://github.com/AbsorbingChaos/stacks-dump/tree/feat/monitoring')
+        .addField('Unable to retrieve data', 'Please wait for the next update.')
+        .setColor('#5546FF')
+        .setThumbnail('https://stacks101-com.chaos.workers.dev/img/stacks-mine.png')
+        .setDescription('Unable to pull Freehold follower node data.')
+        // .setImage('https://stacks101-com.chaos.workers.dev/img/stacks-mine.png')
+        .setFooter('Developed by Absorbing Chaos', 'https://stacks101-com.chaos.workers.dev/img/stacks-mine.png')
+        .setTimestamp();
+        hook.send(embed)
+      }
     } else {
       for (let miner_key of Object.keys(miners).filter(miner => miners[miner].mined > 0).sort((a, b) => (miners[b].last_commit - miners[a].last_commit))) {
         const miner = miners[miner_key]
