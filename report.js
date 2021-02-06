@@ -858,8 +858,8 @@ function process_burnchain_ops() {
           if (last_block - miner.last_block < 1) {
             // list active miners
             miner_btc = c32.c32ToB58(miner_key)
-            miner_mined = numberWithCommas(miner.mined, 0)
-            miner_last_commit = numberWithCommas(miner.last_commit, 0)
+            miner_mined = `${numberWithCommas(miner.mined, 0)}`
+            miner_last_commit = `${numberWithCommas(miner.rewards / 1000000, 2)}`
             miner_list = miner_list + miner_key + '\n'
             miner_list = miner_list + miner_btc + '\n'
             miner_list = miner_list + miner.actual_win + ' / ' + miner.won + ' / ' + miner_mined + ' / ' + miner_last_commit + ' sats\n\n'
