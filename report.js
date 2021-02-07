@@ -858,7 +858,7 @@ function process_burnchain_ops() {
       for (let miner_key of Object.keys(miners).filter(miner => miners[miner].mined > 0).sort()) {
         const miner = miners[miner_key]
         if (miner.mined > 0) {
-          if (last_block - miner.last_block < 1) {
+          if (last_block - miner.last_block < 4) {
             // list active miners
             miner_btc = c32.c32ToB58(miner_key)
             miner_mined = `${numberWithCommas(miner.mined, 0)}`
