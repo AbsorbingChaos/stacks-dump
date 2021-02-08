@@ -108,6 +108,13 @@ let show_registrations = false
 let show_totals = true
 let start_block = 0
 let end_block = 2000000000 // probably high enough
+let local_stats = false
+let btc_burn_height = 0
+let stx_burn_height = 0
+let stx_block_height = 0
+let stx_api_block_height = 0
+let stx_balance = 0
+let btc_balance = 0
 let data_root_path = ''
 const my_args = process.argv.slice(2)
 
@@ -184,6 +191,21 @@ for (let j = 0; j < my_args.length; j++) {
     case '-z':
     case '--discord':
       use_discord = true
+      break
+    case '--local-stats':
+      local_stats = true
+      j++
+      btc_burn_height = parseInt(my_args[j])
+      j++
+      stx_burn_height = parseInt(my_args[j])
+      j++
+      stx_block_height = parseInt(my_args[j])
+      j++
+      stx_api_block_height = parseInt(my_args[j])
+      j++
+      stx_balance = parseInt(my_args[j])
+      j++
+      btc_balance = parseInt(my_args[j])
       break
     default:
       // assuming last argument is root path
@@ -871,11 +893,22 @@ function process_burnchain_ops() {
         }
       }
 
+      let node_stats = ''
+      if (local_stats) {
+        node_stats = "FREEHOLD MINER STATS"
+        node_stats = node_stats + 'Bitcoin BH ' + btc_burn_height + ' / Stacks Node BH ' + stx_burn_height + '\n'
+        node_stats = node_stats + 'Stacks Node Tip ' + stx_block_height + ' / Stacks API Tip ' + stx_api_block_height + '\n'
+        node_stats = node_stats + 'STX Balance: ' + stx_balance + '\n'
+        node_stats = node_stats + 'BTC Balance: ' + btc_balance
+      }
+      
+
       if (miner_count > 0) {
         const embed = new MessageBuilder()
         .setTitle('STX Mining Stats')
         .setAuthor('Stacks-Dump')
         .setURL('https://github.com/AbsorbingChaos/stacks-dump/tree/feat/monitoring')
+        .addField('Miner Node Stats', node_stats)
         .addField('Total Miners (last block ' + last_block + ')', miner_count_last_block)
         .addField('Total Miners (overall)', Object.keys(miners).length)
         .addField('Total Commit (last block ' + last_block + ')', numberWithCommas(burn_last_block, 0))
