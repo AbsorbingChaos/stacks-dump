@@ -910,8 +910,8 @@ function process_burnchain_ops() {
         node_stats = node_stats + 'Follower Stacks Tip: ' + stx_f_block_height + '\n'
         node_stats = node_stats + 'Miner Stacks Tip: ' + stx_m_block_height + '\n'
         node_stats = node_stats + 'Stacks API Tip: ' + stx_api_block_height + '\n'
-        node_stats = node_stats + 'STX Balance: ' + stx_balance + '\n'
-        node_stats = node_stats + 'BTC Balance: ' + btc_balance
+        node_stats = node_stats + 'STX Balance: ' + numberWithCommas(stx_balance, 0) + '\n'
+        node_stats = node_stats + 'BTC Balance: ' + numberWithCommas(btc_balance, 0)
       }
       
       if (miner_count > 0) {
