@@ -919,7 +919,7 @@ function process_burnchain_ops() {
         .setTitle('STX Mining Stats')
         .setAuthor('Stacks-Dump')
         .setURL('https://github.com/AbsorbingChaos/stacks-dump/tree/feat/monitoring')
-        .addField('Freehold Miner Stats', node_stats)
+        .addField('Freehold Node Stats', node_stats)
         .addField('Total Miners', miner_total)
         .addField('Total Commit (block ' + last_block + ')', numberWithCommas(burn_last_block, 0))
         // .addField('Block Reward (block)', numberWithCommas(reward_last_block, 0))
