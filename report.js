@@ -885,8 +885,8 @@ function process_burnchain_ops() {
             miner_btc = c32.c32ToB58(miner_key)
             miner_mined = `${numberWithCommas(miner.mined, 0)}`
             miner_last_commit = miner.last_commit
-            miner_list = miner_list + miner_key + '\n'
-            miner_list = miner_list + miner_btc + '\n'
+            miner_list = miner_list + miner_key.substring(0,6) + '\n'
+            miner_list = miner_list + miner_btc.substring(0,6) + '\n'
             miner_list = miner_list + miner.actual_win + ' / ' + miner.won + ' / ' + miner_mined + ' / ' + miner_last_commit + ' sats\n\n'
             miner_count++
           }
@@ -901,7 +901,6 @@ function process_burnchain_ops() {
         node_stats = node_stats + 'BTC Balance ' + btc_balance
       }
       
-
       if (miner_count > 0) {
         const embed = new MessageBuilder()
         .setTitle('STX Mining Stats')
