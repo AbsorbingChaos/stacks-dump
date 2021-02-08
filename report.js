@@ -895,11 +895,10 @@ function process_burnchain_ops() {
 
       let node_stats = ''
       if (local_stats) {
-        node_stats = "FREEHOLD MINER STATS"
-        node_stats = node_stats + 'Bitcoin BH ' + btc_burn_height + ' / Stacks Node BH ' + stx_burn_height + '\n'
+        node_stats = 'Bitcoin BH ' + btc_burn_height + ' / Stacks Node BH ' + stx_burn_height + '\n'
         node_stats = node_stats + 'Stacks Node Tip ' + stx_block_height + ' / Stacks API Tip ' + stx_api_block_height + '\n'
-        node_stats = node_stats + 'STX Balance: ' + stx_balance + '\n'
-        node_stats = node_stats + 'BTC Balance: ' + btc_balance
+        node_stats = node_stats + 'STX Balance ' + stx_balance + '\n'
+        node_stats = node_stats + 'BTC Balance ' + btc_balance
       }
       
 
@@ -908,11 +907,11 @@ function process_burnchain_ops() {
         .setTitle('STX Mining Stats')
         .setAuthor('Stacks-Dump')
         .setURL('https://github.com/AbsorbingChaos/stacks-dump/tree/feat/monitoring')
-        .addField('Miner Node Stats', node_stats)
-        .addField('Total Miners (last block ' + last_block + ')', miner_count_last_block)
+        .addField('Freehold Miner Stats', node_stats)
+        .addField('Total Miners (block ' + last_block + ')', miner_count_last_block)
         .addField('Total Miners (overall)', Object.keys(miners).length)
-        .addField('Total Commit (last block ' + last_block + ')', numberWithCommas(burn_last_block, 0))
-        // .addField('Block Reward (last block)', numberWithCommas(reward_last_block, 0))
+        .addField('Total Commit (block ' + last_block + ')', numberWithCommas(burn_last_block, 0))
+        // .addField('Block Reward (block)', numberWithCommas(reward_last_block, 0))
         .addField('Active Miners (' + miner_count + ')', miner_list)
         .setColor('#5546FF')
         .setThumbnail('https://stacks101-com.chaos.workers.dev/img/stacks-mine.png')
