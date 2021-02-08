@@ -197,9 +197,13 @@ for (let j = 0; j < my_args.length; j++) {
       j++
       btc_burn_height = parseInt(my_args[j])
       j++
-      stx_burn_height = parseInt(my_args[j])
+      stx_f_burn_height = parseInt(my_args[j])
       j++
-      stx_block_height = parseInt(my_args[j])
+      stx_f_block_height = parseInt(my_args[j])
+      j++
+      stx_m_burn_height = parseInt(my_args[j])
+      j++
+      stx_m_block_height = parseInt(my_args[j])
       j++
       stx_api_block_height = parseInt(my_args[j])
       j++
@@ -899,8 +903,10 @@ function process_burnchain_ops() {
       let node_stats = ''
       if (local_stats) {
         node_stats = 'Bitcoin Burn Height: ' + btc_burn_height + '\n'
-        node_stats = node_stats + 'Node Burn Height: ' + stx_burn_height + '\n'
-        node_stats = node_stats + 'Node Stacks Tip: ' + stx_block_height + '\n'
+        node_stats = node_stats + 'Follower Burn Height: ' + stx_f_burn_height + '\n'
+        node_stats = node_stats + 'Miner Burn Height: ' + stx_m_burn_height + '\n'
+        node_stats = node_stats + 'Follower Stacks Tip: ' + stx_f_block_height + '\n'
+        node_stats = node_stats + 'Miner Stacks Tip: ' + stx_m_block_height + '\n'
         node_stats = node_stats + 'Stacks API Tip: ' + stx_api_block_height + '\n'
         node_stats = node_stats + 'STX Balance: ' + stx_balance + '\n'
         node_stats = node_stats + 'BTC Balance: ' + btc_balance
