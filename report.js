@@ -876,7 +876,7 @@ function process_burnchain_ops() {
       miner_total = 'Block ' + last_block + ': ' + miner_count_last_block + '\n'
       miner_total = miner_total + 'Overall: ' + Object.keys(miners).length
 
-      let miner_list = 'STX Address / BTC Address\nActual Wins / Total Wins / Total Mined / Last Paid\n\n'
+      let miner_list = 'BTC Address\nActual Wins / Total Wins / Total Mined / Last Paid\n\n'
       let miner_count = 0
       let miner_btc = ''
       let miner_mined = ''
@@ -889,7 +889,7 @@ function process_burnchain_ops() {
             miner_btc = c32.c32ToB58(miner_key)
             miner_mined = `${numberWithCommas(miner.mined, 0)}`
             miner_last_commit = miner.last_commit
-            miner_list = miner_list + miner_key.substring(0,8)  + ' / ' + miner_btc.substring(0,8) + '\n'
+            miner_list = miner_list + miner_btc + '\n'
             miner_list = miner_list + miner.actual_win + ' / ' + miner.won + ' / ' + miner_mined + ' / ' + miner_last_commit + ' sats\n'
             miner_count++
           }
@@ -898,10 +898,12 @@ function process_burnchain_ops() {
 
       let node_stats = ''
       if (local_stats) {
-        node_stats = 'Bitcoin BH ' + btc_burn_height + ' / Stacks Node BH ' + stx_burn_height + '\n'
-        node_stats = node_stats + 'Stacks Node Tip ' + stx_block_height + ' / Stacks API Tip ' + stx_api_block_height + '\n'
-        node_stats = node_stats + 'STX Balance ' + stx_balance + '\n'
-        node_stats = node_stats + 'BTC Balance ' + btc_balance
+        node_stats = 'Bitcoin Burn Height: ' + btc_burn_height + '\n'
+        node_stats = node_stats + 'Node Burn Height: ' + stx_burn_height + '\n'
+        node_stats = node_stats + 'Node Stacks Tip: ' + stx_block_height + '\n'
+        node_stats = node_stats + 'Stacks API Tip: ' + stx_api_block_height + '\n'
+        node_stats = node_stats + 'STX Balance: ' + stx_balance + '\n'
+        node_stats = node_stats + 'BTC Balance: ' + btc_balance
       }
       
       if (miner_count > 0) {
