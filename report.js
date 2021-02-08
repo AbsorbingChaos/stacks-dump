@@ -872,7 +872,11 @@ function process_burnchain_ops() {
       console.log(table.toString())
     } else if (use_discord) {
 
-      let miner_list = 'STX Address\nBTC Address\nActual Wins / Total Wins / Total Mined / Last Paid\n\n'
+      let miner_total = ''
+      miner_total = 'Block ' + last_block + ': ' + miner_count_last_block + '\n'
+      miner_total = miner_total + 'Overall: ' + Object.keys(miners).length
+
+      let miner_list = 'STX Address / BTC Address\nActual Wins / Total Wins / Total Mined / Last Paid\n\n'
       let miner_count = 0
       let miner_btc = ''
       let miner_mined = ''
@@ -906,8 +910,7 @@ function process_burnchain_ops() {
         .setAuthor('Stacks-Dump')
         .setURL('https://github.com/AbsorbingChaos/stacks-dump/tree/feat/monitoring')
         .addField('Freehold Miner Stats', node_stats)
-        .addField('Total Miners (block ' + last_block + ')', miner_count_last_block)
-        .addField('Total Miners (overall)', Object.keys(miners).length)
+        .addField('Total Miners', miner_total)
         .addField('Total Commit (block ' + last_block + ')', numberWithCommas(burn_last_block, 0))
         // .addField('Block Reward (block)', numberWithCommas(reward_last_block, 0))
         .addField('Active Miners (' + miner_count + ')', miner_list)
