@@ -885,7 +885,7 @@ function process_burnchain_ops() {
             miner_btc = c32.c32ToB58(miner_key)
             miner_mined = `${numberWithCommas(miner.mined, 0)}`
             miner_last_commit = miner.last_commit
-            miner_list = miner_list + miner_key.substring(0,8) +  + ' / ' + miner_btc.substring(0,8) + '\n'
+            miner_list = miner_list + miner_key.substring(0,8)  + ' / ' + miner_btc.substring(0,8) + '\n'
             miner_list = miner_list + miner.actual_win + ' / ' + miner.won + ' / ' + miner_mined + ' / ' + miner_last_commit + ' sats\n'
             miner_count++
           }
